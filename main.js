@@ -5,10 +5,14 @@ const desktopMenu = document.querySelector('.desktop-menu');
 const mobileMenu = document.querySelector('.mobile-menu');
 const shoppingCartContainer = document.querySelector('#shopping-cart-container');
 const cardsContainer = document.querySelector('.cards-container');
+const productDetailContainer = document.querySelector('#product-detail')
+const productDetailCloseIcon = document.querySelector('.product-detail-close')
 
 menuEmail.addEventListener('click', toggleDesktopMenu);
 menuHamIcon.addEventListener('click', toggleMobileMenu);
 menuCarritoIcon.addEventListener('click', toggleCarritoAside);
+productDetailCloseIcon.addEventListener('click', closeproductDetailAside);
+
 
 function toggleDesktopMenu() {
     const isAsideClosed = shoppingCartContainer.classList.contains('inactive');
@@ -27,6 +31,8 @@ function toggleMobileMenu() {
         shoppingCartContainer.classList.add('inactive');
     }
 
+    closeProductDetailAside();
+
     mobileMenu.classList.toggle('inactive');
 }
 
@@ -37,9 +43,23 @@ function toggleCarritoAside() {
         mobileMenu.classList.add('inactive');
     }
 
+    const isProductDetailClosed = productDetailContainer.classList.contains('inactive');
+
+    if (!isProductDetailClosed) {
+        productDetailContainer.classList.add('inactive');
+    }
+
     shoppingCartContainer.classList.toggle('inactive');
 }
 
+function openProductDetailAside() {
+    shoppingCartContainer.classList.add('inactive');
+    productDetailContainer.classList.remove('inactive');
+}
+
+function closeProductDetailAside() {
+    productDetailContainer.classList.add('inactive');
+}
 const productList = []
 productList.push({
     name: 'Pokeball',
@@ -67,6 +87,13 @@ productList.push({
     image: 'https://static.wikia.nocookie.net/espokemon/images/b/bc/Cebo_Ball_%28Ilustraci%C3%B3n%29.png'
 })
 
+function openProductDetail() {
+    productDetailContainer.classList.remove('inactive')
+}
+function closeproductDetailAside() {
+    productDetailContainer.classList.add('inactive')
+}
+
 function renderProducts(arr) {
     for (product of arr) {
         const productCart = document.createElement('div')
@@ -74,6 +101,7 @@ function renderProducts(arr) {
 
         const productimg = document.createElement('img')
         productimg.setAttribute('src', product.image)
+        productimg.addEventListener('click', openProductDetail)
 
         const productInfo = document.createElement('div')
         productInfo.classList.add('product-info')
